@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+// import { auth, googleProvider } from '../firebaseSetup';
+// import { signInWithPopup } from 'firebase/auth';
 
 export function MultiplayerOverlay({
     userName, setAndSaveName, showNamePrompt,
@@ -8,6 +10,12 @@ export function MultiplayerOverlay({
     const [nameInput, setNameInput] = useState('');
     const [showShareModal, setShowShareModal] = useState(false);
 
+    // Simulated Google Login for Admin demo
+    const handleGoogleLogin = () => {
+        // In a real app we do: signInWithPopup(auth, googleProvider).then(user => setAndSaveName(user.email))
+        setAndSaveName('pitiwxt@gmail.com');
+    };
+
     if (showNamePrompt) {
         return (
             <div className="modal-overlay" style={{ zIndex: 9999, background: 'rgba(10, 14, 26, 0.95)' }}>
@@ -15,8 +23,20 @@ export function MultiplayerOverlay({
                     <div style={{ fontSize: 40, marginBottom: 16 }}>👋</div>
                     <h2 style={{ color: 'var(--text-primary)', marginBottom: 12 }}>ยินดีต้อนรับสู่ทริป</h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 24 }}>
-                        โปรดใส่ชื่อของคุณเพื่อให้เพื่อนร่วมทริปทราบว่าคุณออนไลน์อยู่
+                        โปรดระบุตัวตนของคุณเพื่อเข้าถึงแผนการเดินทาง
                     </p>
+
+                    <button
+                        className="btn btn-secondary"
+                        style={{ width: '100%', padding: 14, justifyContent: 'center', marginBottom: 16, background: 'white', color: '#444' }}
+                        onClick={handleGoogleLogin}
+                    >
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style={{ width: 18 }} alt="g" />
+                        ล็อกอินด้วย Google (Admin)
+                    </button>
+
+                    <div style={{ color: 'var(--text-muted)', fontSize: 11, margin: '16px 0' }}>— หรือใช้ชื่อทั่วไป (สาธารณะ) —</div>
+
                     <input
                         type="text"
                         value={nameInput}
@@ -32,12 +52,14 @@ export function MultiplayerOverlay({
                             if (nameInput.trim()) setAndSaveName(nameInput.trim());
                         }}
                     >
-                        เข้าสู่แผนการเดินทาง
+                        เข้าสู่แผนในฐานะผู้เยี่ยมชม
                     </button>
                 </div>
             </div>
         );
     }
+
+    const isAdmin = userName === 'pitiwxt@gmail.com';
 
     return (
         <>
@@ -58,16 +80,20 @@ export function MultiplayerOverlay({
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: -8, marginLeft: 'auto' }}>
-                    {onlineUsers.map(u => (
-                        <div key={u.id} title={`${u.name} (${u.mode})`} style={{
-                            width: 26, height: 26, borderRadius: '50%', background: 'var(--accent-red)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            color: 'white', fontSize: 10, fontWeight: 700, border: '2px solid var(--bg-secondary)',
-                            marginLeft: -8
-                        }}>
-                            {u.name.substring(0, 2).toUpperCase()}
-                        </div>
-                    ))}
+                    {onlineUsers.map(u => {
+                        const isNodeAdmin = u.name === 'pitiwxt@gmail.com';
+                        return (
+                            <div key={u.id} title={`${u.name} ${isNodeAdmin ? '(Admin)' : `(${u.mode})`}`} style={{
+                                width: 26, height: 26, borderRadius: '50%', background: isNodeAdmin ? 'var(--accent-gold)' : 'var(--accent-red)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                color: 'white', fontSize: 10, fontWeight: 700, border: '2px solid var(--bg-secondary)',
+                                marginLeft: -8, position: 'relative'
+                            }}>
+                                {u.name.substring(0, 2).toUpperCase()}
+                                {isNodeAdmin && <span style={{ position: 'absolute', top: -6, right: -4, fontSize: 10 }}>👑</span>}
+                            </div>
+                        )
+                    })}
                 </div>
 
                 <button
@@ -88,8 +114,17 @@ export function MultiplayerOverlay({
                         </div>
                         <div className="modal-body" style={{ padding: 20 }}>
 
-                            {isHost ? (
+                            {isAdmin && isHost ? (
                                 <div style={{ marginBottom: 24 }}>
+                                    <div style={{ padding: 12, background: 'rgba(212, 168, 67, 0.15)', borderRadius: 8, marginBottom: 16, border: '1px solid rgba(212, 168, 67, 0.3)' }}>
+                                        <div style={{ fontSize: 13, color: 'var(--accent-gold)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                                            <span style={{ fontSize: 16 }}>👑</span> <strong>ผู้ดูแลระบบ (Admin: pitiwxt)</strong>
+                                        </div>
+                                        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
+                                            คุณคือแอดมินระบบหลัก อำนาจครอบคลุมทุกการแชร์
+                                        </div>
+                                    </div>
+
                                     <h4 style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 8 }}>แชร์ลิงก์ให้เพื่อน</h4>
 
                                     <div style={{ background: 'var(--bg-primary)', padding: 12, borderRadius: 8, marginBottom: 12 }}>

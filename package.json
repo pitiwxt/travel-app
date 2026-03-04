@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "firebase": "^12.10.0",
     "gun": "^0.2020.1241",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.576.0",

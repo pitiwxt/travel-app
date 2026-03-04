@@ -24,6 +24,15 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [customExpenses, setCustomExpenses] = useState(fixedExpenses);
   const [exchangeRate, setExchangeRate] = useState(0.25); // default fallback
+  const [theme, setTheme] = useState(localStorage.getItem('travel_theme') || 'dark');
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('travel_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
   const mpProps = useMultiplayer((remoteState) => {
     setPlan(remoteState.plan);
@@ -174,6 +183,14 @@ export default function App() {
             <img src="/logo.png" style={{ width: 26, height: 26, borderRadius: 6 }} alt="logo" />
             <span className="mobile-header-title">เกียวโต・โอซาก้า</span>
           </div>
+          <button
+            className="btn btn-ghost btn-sm"
+            style={{ marginLeft: 'auto', fontSize: 16, padding: '4px 8px' }}
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'เปลี่ยนเป็นสว่าง' : 'เปลี่ยนเป็นมืด'}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
         </div>
 
         {/* Sidebar overlay (mobile) */}
@@ -188,6 +205,8 @@ export default function App() {
             onNav={(p) => setPage(p)}
             isOpen={isSidebarOpen}
             onClose={closeSidebar}
+            theme={theme}
+            toggleTheme={toggleTheme}
           />
           <div className="main-content">
             {page === 'overview' && <OverviewPage />}
