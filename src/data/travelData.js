@@ -1,0 +1,410 @@
+// ข้อมูลแผนการเดินทาง เกียวโต-โอซาก้า 7 วัน
+
+export const tripInfo = {
+  title: "เกียวโต-โอซาก้า 7 วัน",
+  startDate: "2026-03-07",
+  endDate: "2026-03-13",
+};
+
+// coordinates สำหรับแต่ละสถานที่ (ท่องเที่ยว + โรงแรม)
+export const locationCoords = {
+  // ท่องเที่ยว
+  "สนามบินคันไซ (KIX)": [34.4272, 135.2440],
+  "Nishiki Market": [35.0046, 135.7657],
+  "Pontocho Alley": [35.0048, 135.7706],
+  "Gion District": [35.0037, 135.7754],
+  "Kiyomizu-dera": [34.9947, 135.7850],
+  "Sannenzaka": [34.9983, 135.7817],
+  "Ninenzaka": [34.9993, 135.7815],
+  "Kodai-ji Temple": [35.0012, 135.7810],
+  "Yasaka Shrine": [35.0036, 135.7785],
+  "Maruyama Park": [35.0030, 135.7770],
+  "Gion": [35.0037, 135.7754],
+  "Ginkaku-ji": [35.0268, 135.7982],
+  "Philosopher's Path": [35.0173, 135.7983],
+  "Nanzen-ji": [35.0113, 135.7942],
+  "Eikan-do": [35.0130, 135.7972],
+  "Heian Shrine": [35.0164, 135.7822],
+  "Kyoto": [35.0116, 135.7681],
+  "Pontocho": [35.0048, 135.7706],
+  "Kawaramachi": [35.0054, 135.7704],
+  "Arashiyama": [35.0094, 135.6728],
+  "Bamboo Grove": [35.0171, 135.6711],
+  "Tenryu-ji": [35.0170, 135.6724],
+  "Togetsukyo Bridge": [35.0113, 135.6810],
+  "Fushimi Inari": [34.9671, 135.7727],
+  "Fushimi Inari Shrine": [34.9671, 135.7727],
+  "Kyoto Station": [34.9858, 135.7588],
+  "Yamashina": [34.9892, 135.8121],
+  "Bishamondo": [34.9996, 135.8349],
+  "Yamashina Canal": [34.9916, 135.8106],
+  "Seimei Shrine": [35.0244, 135.7512],
+  "Tanukidani Fudo-in": [35.0399, 135.7858],
+  "Yoshida Shrine": [35.0255, 135.7803],
+  "Kyoto University": [35.0265, 135.7813],
+  "Osaka": [34.6937, 135.5023],
+  "Osaka Castle": [34.6873, 135.5262],
+  "Namba": [34.6651, 135.5010],
+  "Dotonbori": [34.6686, 135.5014],
+  "Shinsaibashi": [34.6739, 135.5002],
+
+  // --- สนามบิน & สถานีหลัก ---
+  "Kansai Airport": [34.4320, 135.2304],
+  "Kyoto Station": [34.9858, 135.7588],
+  "JR Haruka": [34.9858, 135.7588], // Alias
+  "Osaka Station": [34.7024, 135.4959],
+  "Shin-Osaka Station": [34.7330, 135.5002],
+  "Namba Station": [34.6631, 135.5019],
+  "Umeda Station": [34.7028, 135.4952],
+
+  // --- ท่องเที่ยวหลัก - เกียวโต ฝั่งตะวันออก (Higashiyama) ---
+  "Kiyomizu-dera": [34.9948, 135.7850],
+  "Sannenzaka": [34.9968, 135.7801],
+  "Ninenzaka": [34.9984, 135.7797],
+  "Kodai-ji Temple": [35.0007, 135.7816],
+  "Yasaka Shrine": [35.0036, 135.7785],
+  "Maruyama Park": [35.0035, 135.7818],
+  "Chion-in Temple": [35.0055, 135.7827],
+  "Gion District": [35.0037, 135.7752],
+  "Gion": [35.0037, 135.7752],
+  "Hanamikoji": [35.0020, 135.7750],
+  "Kennin-ji Temple": [35.0004, 135.7738],
+  "Heian Shrine": [35.0159, 135.7824],
+  "Nanzen-ji": [35.0113, 135.7932],
+  "Eikan-do": [35.0142, 135.7949],
+  "Philosopher's Path": [35.0234, 135.7950],
+  "Ginkaku-ji": [35.0270, 135.7982],
+
+  // --- ท่องเที่ยวหลัก - เกียวโต ฝั่งตะวันตก (Arashiyama) & ตะวันตกเฉียงเหนือ ---
+  "Kinkaku-ji": [35.0394, 135.7292],
+  "Ryoan-ji": [35.0344, 135.7185],
+  "Ninna-ji": [35.0311, 135.7135],
+  "Arashiyama": [35.0141, 135.6766],
+  "Bamboo Grove": [35.0175, 135.6716],
+  "Tenryu-ji": [35.0154, 135.6738],
+  "Togetsukyo Bridge": [35.0128, 135.6775],
+  "Monkey Park Iwatayama": [35.0094, 135.6760],
+  "Daikaku-ji": [35.0279, 135.6777],
+
+  // --- ท่องเที่ยวหลัก - เกียวโต ฝั่งเหนือ & กลาง ---
+  "Daitoku-ji": [35.0435, 135.7456],
+  "Nijo Castle": [35.0142, 135.7482],
+  "Kyoto Imperial Palace": [35.0254, 135.7621],
+  "Shimogamo Shrine": [35.0396, 135.7730],
+  "Kamigamo Shrine": [35.0598, 135.7519],
+  "Seimei Shrine": [35.0264, 135.7516],
+  "Kitano Tenmangu": [35.0313, 135.7350],
+
+  // --- ท่องเที่ยวหลัก - เกียวโต ฝั่งใต้ ---
+  "Fushimi Inari": [34.9671, 135.7726],
+  "Fushimi Inari Shrine": [34.9671, 135.7726],
+  "Tofuku-ji": [34.9773, 135.7741],
+  "Sanbousain": [34.9507, 135.8193], // Daigo-ji area
+  "Bishamondo": [34.9961, 135.8164], // Yamashina
+  "Tanukidani Fudo-in": [35.0416, 135.8037],
+  "Toji Temple": [34.9800, 135.7476],
+
+  // --- แหล่งช้อปปิ้ง & อาหาร - เกียวโต ---
+  "Nishiki Market": [35.0048, 135.7645],
+  "Nishiki Market 2": [35.0046, 135.7657],
+  "Pontocho": [35.0064, 135.7709],
+  "Pontocho Alley": [35.0064, 135.7709],
+  "Kawaramachi": [35.0039, 135.7686],
+  "Shijo-Karasuma": [35.0036, 135.7595],
+  "Kyoto Tower": [34.9875, 135.7594],
+  "Kyoto Railway Museum": [34.9839, 135.7423],
+  "Kyoto Aquarium": [34.9868, 135.7456],
+
+  // --- ท่องเที่ยวหลัก - โอซาก้า ---
+  "Osaka Castle": [34.6873, 135.5262],
+  "Dotonbori": [34.6687, 135.5020],
+  "Shinsaibashi": [34.6720, 135.5002],
+  "Namba": [34.6669, 135.5019],
+  "Namba Yasaka Shrine": [34.6616, 135.4967],
+  "Kuromon Market": [34.6659, 135.5074],
+  "Shinsekai": [34.6521, 135.5061],
+  "Tsutenkaku Tower": [34.6524, 135.5064],
+  "Tennoji Park": [34.6486, 135.5134],
+  "Abeno Harukas": [34.6458, 135.5139],
+  "Umeda Sky Building": [34.7055, 135.4908],
+  "America-mura": [34.6724, 135.5019],
+  "Den Den Town": [34.6613, 135.5064],
+  "Universal Studios Japan": [34.6654, 135.4323],
+  "Osaka Aquarium Kaiyukan": [34.6545, 135.4289],
+  "Tempozan Ferris Wheel": [34.6562, 135.4312],
+  "Sumiyoshi Taisha": [34.6121, 135.4930],
+  "Shitenno-ji": [34.6534, 135.5165],
+  "Nakanoshima Park": [34.6922, 135.5097],
+  "Hozenji Yokocho": [34.6679, 135.5029],
+  "Orange Street": [34.6687, 135.4947],
+
+  // --- ท่องเที่ยวหลัก - นารา (Nara) ---
+  "Nara Park": [34.6850, 135.8430],
+  "Todai-ji Temple": [34.6890, 135.8398],
+  "Kasuga Taisha": [34.6814, 135.8483],
+  "Kofuku-ji": [34.6828, 135.8315],
+  "Naramachi": [34.6791, 135.8306],
+
+  // --- ท่องเที่ยวหลัก - อุจิ (Uji) ---
+  "Byodo-in Temple": [34.8893, 135.8077],
+  "Uji Bridge": [34.8931, 135.8079],
+  "Tsuen Tea": [34.8933, 135.8080],
+
+  // --- ท่องเที่ยวหลัก - โกเบ (Kobe) & ฮิเมจิ (Himeji) ---
+  "Kobe Port Tower": [34.6826, 135.1867],
+  "Kobe Harborland": [34.6790, 135.1834],
+  "Kitano Ijinkan": [34.7001, 135.1917],
+  "Nankin-machi (Chinatown)": [34.6883, 135.1884],
+  "Himeji Castle": [34.8394, 134.6939],
+
+  // --- มหาวิทยาลัยและอื่นๆ ---
+  "Kyoto University": [35.0262, 135.7808],
+  "Yamashina": [34.9926, 135.8173],
+  "Yoshida Shrine": [35.0245, 135.7820],
+  "Arida (Wakayama)": [34.0833, 135.2000],
+
+  // โรงแรมเกียวโต
+  "Toyoko Inn Kyoto Shijo-Karasuma": [35.0038, 135.7605],
+  "Garner Hotel Kyoto Shijo Karasuma": [35.0041, 135.7600],
+  "Comfort Inn Kyoto Shijokarasuma": [35.0035, 135.7610],
+  "RIHGA Place Kyoto Shijo Karasuma": [35.0044, 135.7598],
+  "Hotel Monterey Kyoto": [35.0090, 135.7570],
+  "Dormy Inn Premium Kyoto Ekimae": [34.9870, 135.7580],
+  "Cross Hotel Kyoto": [35.0028, 135.7690],
+  "Mitsui Garden Hotel Kyoto Shijo": [35.0025, 135.7625],
+  "The Thousand Kyoto": [34.9881, 135.7578],
+  "Hyatt Regency Kyoto": [34.9892, 135.7748],
+  // โรงแรมโอซาก้า
+  "The OneFive Osaka Namba Dotonbori": [34.6676, 135.5022],
+  "Hotel WBF Namba Motomachi": [34.6700, 135.5010],
+  "APA Hotel Osaka Namba Ekimae Tower": [34.6620, 135.5072],
+  "Dormy Inn Namba": [34.6650, 135.5040],
+  "Cross Hotel Osaka": [34.6720, 135.5040],
+  "Chisun Hotel Shinsaibashi": [34.6755, 135.5025],
+  "Hearton Hotel Nishi-Umeda": [34.6968, 135.4936],
+  "Remm Plus Osaka Namba": [34.6648, 135.5018],
+};
+
+// Database สถานที่ทั้งหมด 100+ สำหรับค้นหา
+export const placesDatabase = [
+  // เกียวโต ฝั่งตะวันออก (Higashiyama)
+  { name: "Kiyomizu-dera", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Sannenzaka", city: "เกียวโต", type: "ย่านประวัติศาสตร์", emoji: "🏘️" },
+  { name: "Ninenzaka", city: "เกียวโต", type: "ย่านประวัติศาสตร์", emoji: "🏘️" },
+  { name: "Kodai-ji Temple", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Yasaka Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Maruyama Park", city: "เกียวโต", type: "สวน", emoji: "🌸" },
+  { name: "Chion-in Temple", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Gion District", city: "เกียวโต", type: "ย่านประวัติศาสตร์", emoji: "🏮" },
+  { name: "Hanamikoji", city: "เกียวโต", type: "ย่านประวัติศาสตร์", emoji: "🌺" },
+  { name: "Kennin-ji Temple", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Heian Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Nanzen-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Eikan-do", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Philosopher's Path", city: "เกียวโต", type: "เส้นทางเดิน", emoji: "🛤️" },
+  { name: "Ginkaku-ji", city: "เกียวโต", type: "วัด", emoji: "🛕" },
+
+  // เกียวโต ฝั่งตะวันตก (Arashiyama) & ตะวันตกเฉียงเหนือ
+  { name: "Kinkaku-ji", city: "เกียวโต", type: "วัด", emoji: "🛕" },
+  { name: "Ryoan-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Ninna-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Arashiyama", city: "เกียวโต", type: "ย่านธรรมชาติ", emoji: "🎋" },
+  { name: "Bamboo Grove", city: "เกียวโต", type: "ป่าไผ่", emoji: "🎋" },
+  { name: "Tenryu-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Togetsukyo Bridge", city: "เกียวโต", type: "สะพาน", emoji: "🌉" },
+  { name: "Monkey Park Iwatayama", city: "เกียวโต", type: "สวนสัตว์", emoji: "🐒" },
+  { name: "Daikaku-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+
+  // เกียวโต ฝั่งเหนือ & กลาง
+  { name: "Daitoku-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Nijo Castle", city: "เกียวโต", type: "ปราสาท", emoji: "🏯" },
+  { name: "Kyoto Imperial Palace", city: "เกียวโต", type: "พระราชวัง", emoji: "🏯" },
+  { name: "Shimogamo Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Kamigamo Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Seimei Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Kitano Tenmangu", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Yoshida Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Kyoto University", city: "เกียวโต", type: "มหาวิทยาลัย", emoji: "🏫" },
+
+  // เกียวโต ฝั่งใต้ & อำเภออื่นๆ
+  { name: "Fushimi Inari Shrine", city: "เกียวโต", type: "ศาลเจ้า", emoji: "🦊" },
+  { name: "Tofuku-ji", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Toji Temple", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Bishamondo", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Tanukidani Fudo-in", city: "เกียวโต", type: "วัด", emoji: "⛩️" },
+  { name: "Yamashina", city: "เกียวโต", type: "ย่าน", emoji: "🚉" },
+
+  // เกียวโต แหล่งช้อปปิ้งและในเมือง
+  { name: "Nishiki Market", city: "เกียวโต", type: "ตลาด", emoji: "🏪" },
+  { name: "Pontocho Alley", city: "เกียวโต", type: "ย่านอาหาร", emoji: "🍜" },
+  { name: "Kawaramachi", city: "เกียวโต", type: "ย่านช็อปปิ้ง", emoji: "🛍️" },
+  { name: "Kyoto Station", city: "เกียวโต", type: "สถานี", emoji: "🚉" },
+  { name: "Kyoto Tower", city: "เกียวโต", type: "หอชมวิว", emoji: "🗼" },
+  { name: "Kyoto Railway Museum", city: "เกียวโต", type: "พิพิธภัณฑ์", emoji: "🚆" },
+  { name: "Kyoto Aquarium", city: "เกียวโต", type: "พิพิธภัณฑ์สัตว์น้ำ", emoji: "🐟" },
+
+  // โอซาก้า
+  { name: "Osaka Castle", city: "โอซาก้า", type: "ปราสาท", emoji: "🏯" },
+  { name: "Dotonbori", city: "โอซาก้า", type: "ย่านอาหาร", emoji: "🦞" },
+  { name: "Shinsaibashi", city: "โอซาก้า", type: "ย่านช็อปปิ้ง", emoji: "🛍️" },
+  { name: "Namba", city: "โอซาก้า", type: "ย่านช็อปปิ้ง", emoji: "🛍️" },
+  { name: "Namba Yasaka Shrine", city: "โอซาก้า", type: "ศาลเจ้า", emoji: "🦁" },
+  { name: "Kuromon Market", city: "โอซาก้า", type: "ตลาดอาหาร", emoji: "🏪" },
+  { name: "Shinsekai", city: "โอซาก้า", type: "ย่านประวัติศาสตร์", emoji: "🍡" },
+  { name: "Tsutenkaku Tower", city: "โอซาก้า", type: "หอชมวิว", emoji: "🗼" },
+  { name: "Tennoji Park", city: "โอซาก้า", type: "สวน", emoji: "🌿" },
+  { name: "Abeno Harukas", city: "โอซาก้า", type: "ตึกชมวิว", emoji: "🏢" },
+  { name: "Umeda Sky Building", city: "โอซาก้า", type: "ตึกชมวิว", emoji: "🏙️" },
+  { name: "America-mura", city: "โอซาก้า", type: "ย่านแฟชั่น", emoji: "👗" },
+  { name: "Den Den Town", city: "โอซาก้า", type: "ย่านอนิเมะ/อิเล็กทรอนิกส์", emoji: "🎮" },
+  { name: "Universal Studios Japan", city: "โอซาก้า", type: "สวนสนุก", emoji: "🎢" },
+  { name: "Osaka Aquarium Kaiyukan", city: "โอซาก้า", type: "พิพิธภัณฑ์สัตว์น้ำ", emoji: "🐋" },
+  { name: "Tempozan Ferris Wheel", city: "โอซาก้า", type: "ชิงช้าสวรรค์", emoji: "🎡" },
+  { name: "Sumiyoshi Taisha", city: "โอซาก้า", type: "ศาลเจ้า", emoji: "⛩️" },
+  { name: "Shitenno-ji", city: "โอซาก้า", type: "วัด", emoji: "⛩️" },
+  { name: "Kansai Airport", city: "โอซาก้า", type: "สนามบิน", emoji: "✈️" },
+  { name: "Hozenji Yokocho", city: "โอซาก้า", type: "ตรอกอาหาร", emoji: "🏮" },
+  { name: "Orange Street", city: "โอซาก้า", type: "ถนนช้อปปิ้งเฟอร์นิเจอร์", emoji: "🛋️" },
+
+  // นารา (Nara)
+  { name: "Nara Park", city: "นารา", type: "สวนและกวาง", emoji: "🦌" },
+  { name: "Todai-ji Temple", city: "นารา", type: "วัด (พระใหญ่)", emoji: "🛕" },
+  { name: "Kasuga Taisha", city: "นารา", type: "ศาลเจ้า (ตะเกียงนับพัน)", emoji: "⛩️" },
+  { name: "Kofuku-ji", city: "นารา", type: "วัด (เจดีย์ 5 ชั้น)", emoji: "⛩️" },
+  { name: "Naramachi", city: "นารา", type: "ย่านพ่อค้าเก่า", emoji: "🏘️" },
+
+  // อุจิ (Uji)
+  { name: "Byodo-in Temple", city: "อุจิ", type: "วัด (เหรียญ10เยน)", emoji: "🛕" },
+  { name: "Uji Bridge", city: "อุจิ", type: "สะพานโบราณ", emoji: "🌉" },
+  { name: "Tsuen Tea", city: "อุจิ", type: "ร้านชงชาที่เก่าแก่ที่สุด", emoji: "🍵" },
+
+  // โกเบ (Kobe) & ฮิเมจิ
+  { name: "Kobe Port Tower", city: "โกเบ", type: "หอชมวิวท่าเรือ", emoji: "🗼" },
+  { name: "Kobe Harborland", city: "โกเบ", type: "แหล่งช้อปปิ้งสไตล์ตะวันตก", emoji: "🎡" },
+  { name: "Kitano Ijinkan", city: "โกเบ", type: "หมู่บ้านฝรั่งเศสโบราณ", emoji: "🏡" },
+  { name: "Nankin-machi (Chinatown)", city: "โกเบ", type: "ไชน่าทาวน์", emoji: "🥡" },
+  { name: "Himeji Castle", city: "ฮิเมจิ", type: "ปราสาทนกกระยางขาว", emoji: "🏯" },
+];
+
+// Database โรงแรม
+export const hotelsDatabase = [
+  // เกียวโต
+  { id: "k1", city: "เกียวโต", name: "Toyoko Inn Kyoto Shijo-Karasuma", type: "Business Hotel", stars: 3, priceYen: 6600, priceBaht: 1650, highlight: "ใกล้สถานี อาหารเช้าฟรี", tags: ["อาหารเช้าฟรี", "ใกล้MRT"] },
+  { id: "k2", city: "เกียวโต", name: "Garner Hotel Kyoto Shijo Karasuma", type: "Business Hotel", stars: 3, priceYen: 7500, priceBaht: 1875, highlight: "ใหม่ ใกล้รถไฟใต้ดิน", tags: ["ใหม่", "ใกล้MRT"] },
+  { id: "k3", city: "เกียวโต", name: "Comfort Inn Kyoto Shijokarasuma", type: "Business Hotel", stars: 3, priceYen: 7000, priceBaht: 1750, highlight: "สะดวกสบาย ราคาดี", tags: ["ราคาดี"] },
+  { id: "k4", city: "เกียวโต", name: "RIHGA Place Kyoto Shijo Karasuma", type: "Business Hotel", stars: 3, priceYen: 7800, priceBaht: 1950, highlight: "ใกล้แหล่งช็อปปิ้ง", tags: ["ใกล้ช็อปปิ้ง"] },
+  { id: "k5", city: "เกียวโต", name: "Hotel Monterey Kyoto", type: "Boutique Hotel", stars: 4, priceYen: 12000, priceBaht: 3000, highlight: "สไตล์คลาสสิก สง่างาม", tags: ["บูติก", "สไตล์สวย"] },
+  { id: "k6", city: "เกียวโต", name: "Dormy Inn Premium Kyoto Ekimae", type: "Business Hotel", stars: 3, priceYen: 9500, priceBaht: 2375, highlight: "ใกล้สถานีเกียวโต ออนเซ็น", tags: ["ออนเซ็น", "ใกล้สถานี"] },
+  { id: "k7", city: "เกียวโต", name: "Cross Hotel Kyoto", type: "Business Hotel", stars: 3, priceYen: 10000, priceBaht: 2500, highlight: "ใจกลางเมือง ออกแบบทันสมัย", tags: ["ใจกลางเมือง", "ทันสมัย"] },
+  { id: "k8", city: "เกียวโต", name: "Mitsui Garden Hotel Kyoto Shijo", type: "Business Hotel", stars: 4, priceYen: 11000, priceBaht: 2750, highlight: "ออนเซ็นบนดาดฟ้า วิวสวย", tags: ["ออนเซ็น", "วิวดี"] },
+  { id: "k9", city: "เกียวโต", name: "The Thousand Kyoto", type: "Luxury Hotel", stars: 5, priceYen: 28000, priceBaht: 7000, highlight: "โรงแรมหรู ใกล้ Kyoto Station", tags: ["หรู", "5ดาว"] },
+  { id: "k10", city: "เกียวโต", name: "Hyatt Regency Kyoto", type: "Luxury Hotel", stars: 5, priceYen: 35000, priceBaht: 8750, highlight: "โรงแรมระดับโลก สปาหรู", tags: ["หรู", "5ดาว", "สปา"] },
+  // โอซาก้า
+  { id: "o1", city: "โอซาก้า", name: "The OneFive Osaka Namba Dotonbori", type: "Business Hotel", stars: 3, priceYen: 5900, priceBaht: 1475, highlight: "ใกล้ Dotonbori สุดสะดวก", tags: ["ใกล้Dotonbori"] },
+  { id: "o2", city: "โอซาก้า", name: "Hotel WBF Namba Motomachi", type: "Business Hotel", stars: 3, priceYen: 7470, priceBaht: 1867, highlight: "ใกล้ Namba ราคาสมเหตุ", tags: ["ใกล้Namba"] },
+  { id: "o3", city: "โอซาก้า", name: "APA Hotel Osaka Namba Ekimae Tower", type: "Business Hotel", stars: 3, priceYen: 8874, priceBaht: 2218, highlight: "ตึกสูง วิวดี ใกล้รถไฟ", tags: ["วิวดี", "ใกล้MRT"] },
+  { id: "o4", city: "โอซาก้า", name: "Dormy Inn Namba", type: "Business Hotel", stars: 3, priceYen: 9800, priceBaht: 2450, highlight: "ออนเซ็น ใกล้ Namba", tags: ["ออนเซ็น", "ใกล้Namba"] },
+  { id: "o5", city: "โอซาก้า", name: "Cross Hotel Osaka", type: "Business Hotel", stars: 3, priceYen: 10500, priceBaht: 2625, highlight: "ใจกลางนัมบะ สไตล์โมเดิร์น", tags: ["ใจกลางเมือง", "ทันสมัย"] },
+  { id: "o6", city: "โอซาก้า", name: "Chisun Hotel Shinsaibashi", type: "Business Hotel", stars: 3, priceYen: 8000, priceBaht: 2000, highlight: "ติด Shinsaibashi ช็อปปิ้งสะดวก", tags: ["ใกล้ช็อปปิ้ง"] },
+  { id: "o7", city: "โอซาก้า", name: "Hearton Hotel Nishi-Umeda", type: "Business Hotel", stars: 3, priceYen: 7200, priceBaht: 1800, highlight: "ใกล้ Umeda ห้างสรรพสินค้า", tags: ["ใกล้Umeda"] },
+  { id: "o8", city: "โอซาก้า", name: "Remm Plus Osaka Namba", type: "Business Hotel", stars: 4, priceYen: 12000, priceBaht: 3000, highlight: "พรีเมียม ใกล้ Namba วิวดี", tags: ["พรีเมียม", "วิวดี"] },
+];
+
+export const actionPlan = [
+  // วันที่ 1
+  { day: 1, time: "14:55-15:30", place: "สนามบินคันไซ (KIX)", activity: "ลงเครื่อง ผ่านตรวจคนเข้าเมือง ศุลกากร", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/KIX", note: "" },
+  { day: 1, time: "15:30-16:00", place: "สนามบินคันไซ (KIX)", activity: "ซื้อบัตร JR Haruka + ICOCA", transport: "เดินไปชั้นใต้ดิน", costYen: 2200, costBaht: 550, mapsUrl: "https://maps.app.goo.gl/JRWestKIX", note: "ตั๋วนักท่องเที่ยว" },
+  { day: 1, time: "16:14-17:30", place: "JR Haruka", activity: "นั่งรถไฟไป Kyoto Station", transport: "JR Haruka", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/Haruka", note: "ใช้เวลา ~75 นาที" },
+  { day: 1, time: "17:30-18:00", place: "Kyoto Station", activity: "เดินทางไปโรงแรม", transport: "รถบัส/เดิน", costYen: 230, costBaht: 57, mapsUrl: "https://maps.app.goo.gl/KyotoStation", note: "" },
+  { day: 1, time: "18:00-18:30", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "เช็คอิน เก็บกระเป๋า", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/ToyokoShijo", note: "" },
+  { day: 1, time: "18:30-19:30", place: "Nishiki Market", activity: "เที่ยวตลาดนิชิกิ ชิมอาหาร", transport: "เดิน/รถบัส", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/NishikiMarket", note: "" },
+  { day: 1, time: "19:30-20:30", place: "Pontocho Alley", activity: "รับประทานอาหารเย็น", transport: "เดิน", costYen: 3000, costBaht: 750, mapsUrl: "https://maps.app.goo.gl/Pontocho", note: "" },
+  { day: 1, time: "20:30-21:00", place: "Gion District", activity: "เดินชมย่านกิออนยามค่ำคืน", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/Gion", note: "อาจเจอเกอิชา" },
+  { day: 1, time: "21:00-21:30", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "กลับโรงแรมพักผ่อน", transport: "เดิน/แท็กซี่", costYen: 1000, costBaht: 250, mapsUrl: "https://maps.app.goo.gl/ToyokoShijo", note: "" },
+  // วันที่ 2
+  { day: 2, time: "07:00-08:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "ตื่นนอน อาหารเช้า", transport: "ที่โรงแรม", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/ToyokoShijo", note: "" },
+  { day: 2, time: "08:00-08:30", place: "Kiyomizu-dera", activity: "เดินทางไปวัดคิโยมิซึ", transport: "รถบัสสาย 206", costYen: 230, costBaht: 57, mapsUrl: "https://maps.app.goo.gl/Kiyomizudera", note: "ลงป้าย Gojo-zaka" },
+  { day: 2, time: "08:30-11:00", place: "Kiyomizu-dera", activity: "เที่ยวชมวัดน้ำใสคิโยมิซึ", transport: "เดิน", costYen: 400, costBaht: 100, mapsUrl: "https://maps.app.goo.gl/Kiyomizudera", note: "ชมวิวจากเวทีไม้" },
+  { day: 2, time: "11:00-11:30", place: "Sannenzaka", activity: "เดินชมย่านซันเนซากะ", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/Sannenzaka", note: "ถ่ายรูปสตรีท" },
+  { day: 2, time: "11:30-12:00", place: "Ninenzaka", activity: "เดินชมย่านนิเนซากะ", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/Ninenzaka", note: "ร้านขนมโบราณ" },
+  { day: 2, time: "12:00-13:00", place: "Ninenzaka", activity: "อาหารกลางวัน", transport: "เดิน", costYen: 2000, costBaht: 500, mapsUrl: "https://maps.app.goo.gl/Ninenzaka", note: "" },
+  { day: 2, time: "13:00-14:30", place: "Kodai-ji Temple", activity: "เยี่ยมชมวัดโคไดจิ", transport: "เดิน", costYen: 600, costBaht: 150, mapsUrl: "https://maps.app.goo.gl/Kodaiji", note: "" },
+  { day: 2, time: "14:30-16:00", place: "Yasaka Shrine", activity: "เยี่ยมชมศาลเจ้ายาซากะ", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/YasakaShrine", note: "" },
+  { day: 2, time: "16:00-17:00", place: "Maruyama Park", activity: "พักผ่อนที่สวนมารุยามะ", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "https://maps.app.goo.gl/MaruyamaPark", note: "" },
+  { day: 2, time: "18:00-19:30", place: "Gion", activity: "อาหารเย็น", transport: "เดิน", costYen: 3500, costBaht: 875, mapsUrl: "https://maps.app.goo.gl/Gion", note: "" },
+  { day: 2, time: "20:30-21:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "กลับโรงแรมพักผ่อน", transport: "รถบัส/แท็กซี่", costYen: 1000, costBaht: 250, mapsUrl: "https://maps.app.goo.gl/ToyokoShijo", note: "" },
+  // วันที่ 3
+  { day: 3, time: "07:00-08:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "ตื่นนอน อาหารเช้า", transport: "ที่โรงแรม", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 3, time: "08:00-08:45", place: "Ginkaku-ji", activity: "เดินทางไปวัดกิงกะกุ", transport: "รถบัสสาย 5, 17", costYen: 230, costBaht: 57, mapsUrl: "", note: "" },
+  { day: 3, time: "08:45-11:00", place: "Ginkaku-ji", activity: "เที่ยวชมวัดกิงกะกุ", transport: "เดิน", costYen: 500, costBaht: 125, mapsUrl: "", note: "ชมสวนทรายเงิน" },
+  { day: 3, time: "11:00-12:30", place: "Philosopher's Path", activity: "เดินเส้นทางปราชญ์ 2 กม.", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "2 กม." },
+  { day: 3, time: "12:30-13:30", place: "Nanzen-ji", activity: "อาหารกลางวัน", transport: "เดิน", costYen: 2500, costBaht: 625, mapsUrl: "", note: "" },
+  { day: 3, time: "13:30-15:00", place: "Nanzen-ji", activity: "เยี่ยมชมวัดนันเซนจิ", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "วัดเซนสำคัญ" },
+  { day: 3, time: "15:00-16:30", place: "Eikan-do", activity: "เยี่ยมชมวัดเอคันโด", transport: "เดิน", costYen: 600, costBaht: 150, mapsUrl: "", note: "" },
+  { day: 3, time: "16:30-17:30", place: "Heian Shrine", activity: "เยี่ยมชมศาลเจ้าเฮอัน", transport: "เดิน/รถบัส", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 3, time: "18:30-20:00", place: "Pontocho", activity: "อาหารเย็น", transport: "เดิน", costYen: 3000, costBaht: 750, mapsUrl: "", note: "" },
+  { day: 3, time: "20:00-21:00", place: "Kawaramachi", activity: "เดินเล่นย่านช็อปปิ้ง", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 3, time: "21:00-21:30", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "กลับโรงแรมพักผ่อน", transport: "รถบัส/แท็กซี่", costYen: 1000, costBaht: 250, mapsUrl: "", note: "" },
+  // วันที่ 4
+  { day: 4, time: "06:30-07:30", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "ตื่นนอน อาหารเช้า", transport: "ที่โรงแรม", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 4, time: "07:30-08:30", place: "Arashiyama", activity: "เดินทางไปอาราชิยามา", transport: "รถไฟ JR Sagano Line", costYen: 240, costBaht: 60, mapsUrl: "", note: "ลง Saga-Arashiyama" },
+  { day: 4, time: "08:30-10:30", place: "Bamboo Grove", activity: "เที่ยวป่าไผ่อาราชิยามา", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "ช่วงเช้าคนน้อย" },
+  { day: 4, time: "10:30-12:00", place: "Tenryu-ji", activity: "เยี่ยมชมวัดเทนริวจิ (UNESCO)", transport: "เดิน", costYen: 500, costBaht: 125, mapsUrl: "", note: "มรดกโลก UNESCO" },
+  { day: 4, time: "12:00-13:30", place: "Arashiyama", activity: "อาหารกลางวัน (Yudofu)", transport: "เดิน", costYen: 2500, costBaht: 625, mapsUrl: "", note: "Yudofu" },
+  { day: 4, time: "13:30-14:30", place: "Togetsukyo Bridge", activity: "ชมสะพานโทเก็ตสึเคียว", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 4, time: "14:30-15:30", place: "Fushimi Inari", activity: "เดินทางไปฟูชิมิอินาริ", transport: "รถไฟ JR Nara Line", costYen: 140, costBaht: 35, mapsUrl: "", note: "ลง Inari" },
+  { day: 4, time: "15:30-18:00", place: "Fushimi Inari Shrine", activity: "เที่ยวศาลเจ้าฟูชิมิอินาริ เดินขึ้นเขา", transport: "เดินขึ้นเขา", costYen: 0, costBaht: 0, mapsUrl: "", note: "เดินขึ้นไปจุดชมวิว" },
+  { day: 4, time: "19:00-20:30", place: "Kyoto Station", activity: "อาหารเย็น", transport: "เดิน", costYen: 3000, costBaht: 750, mapsUrl: "", note: "" },
+  { day: 4, time: "20:30-21:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "กลับโรงแรมพักผ่อน", transport: "รถบัส/แท็กซี่", costYen: 1000, costBaht: 250, mapsUrl: "", note: "" },
+  // วันที่ 5
+  { day: 5, time: "07:00-08:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "ตื่นนอน อาหารเช้า", transport: "ที่โรงแรม", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 5, time: "08:00-08:30", place: "Yamashina", activity: "เดินทางไปยามาชินะ", transport: "รถไฟ JR/Keihan", costYen: 240, costBaht: 60, mapsUrl: "", note: "" },
+  { day: 5, time: "08:30-11:30", place: "Bishamondo", activity: "เยี่ยมชมวัดบิชามอนโด", transport: "เดิน 20 นาที", costYen: 700, costBaht: 175, mapsUrl: "", note: "วัดสวยบนเนิน" },
+  { day: 5, time: "12:30-13:30", place: "Yamashina", activity: "อาหารกลางวัน (Obanzai)", transport: "เดิน", costYen: 2000, costBaht: 500, mapsUrl: "", note: "Obanzai" },
+  { day: 5, time: "14:30-16:00", place: "Seimei Shrine", activity: "เยี่ยมชมศาลเจ้าซีเม", transport: "รถบัส/เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "ศาลเจ้าลึกลับ" },
+  { day: 5, time: "16:00-17:30", place: "Tanukidani Fudo-in", activity: "วัดทานุกิดานิ ขึ้นบันได 250 ขั้น", transport: "รถบัส/เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "ขึ้นบันได 250 ขั้น" },
+  { day: 5, time: "17:30-18:30", place: "Yoshida Shrine", activity: "เยี่ยมชมศาลเจ้าโยชิดะ", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "ใกล้มหาวิทยาลัย" },
+  { day: 5, time: "18:30-20:00", place: "Kyoto University", activity: "อาหารเย็น (ร้านนักศึกษา)", transport: "เดิน", costYen: 3000, costBaht: 750, mapsUrl: "", note: "" },
+  { day: 5, time: "20:00-21:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "กลับโรงแรมพักผ่อน", transport: "รถบัส/แท็กซี่", costYen: 1000, costBaht: 250, mapsUrl: "", note: "" },
+  // วันที่ 6
+  { day: 6, time: "07:00-08:00", place: "Toyoko Inn Kyoto Shijo-Karasuma", activity: "ตื่นนอน อาหารเช้า เช็คเอาท์", transport: "ที่โรงแรม", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 6, time: "08:00-09:00", place: "Osaka", activity: "เดินทางไปโอซาก้า JR Kyoto Line", transport: "รถไฟ JR Kyoto Line", costYen: 570, costBaht: 142, mapsUrl: "", note: "ลง Osaka Station" },
+  { day: 6, time: "09:00-09:30", place: "The OneFive Osaka Namba Dotonbori", activity: "เช็คอิน ฝากกระเป๋า", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 6, time: "10:00-13:00", place: "Osaka Castle", activity: "เที่ยวชมปราสาทโอซาก้า", transport: "เดิน", costYen: 600, costBaht: 150, mapsUrl: "", note: "ชมวิวชั้น 8" },
+  { day: 6, time: "13:00-14:00", place: "Osaka Castle", activity: "อาหารกลางวัน", transport: "เดิน", costYen: 2500, costBaht: 625, mapsUrl: "", note: "" },
+  { day: 6, time: "15:00-18:00", place: "Dotonbori", activity: "เที่ยวย่านโดทงโบริ ชมป้าย Glico", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "ชมป้าย Glico" },
+  { day: 6, time: "18:00-19:30", place: "Dotonbori", activity: "อาหารเย็น สตรีทฟู้ด Takoyaki", transport: "เดิน", costYen: 3500, costBaht: 875, mapsUrl: "", note: "Takoyaki" },
+  { day: 6, time: "19:30-21:00", place: "Shinsaibashi", activity: "เดินชมย่านชินไซบาชิ ช็อปปิ้ง", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "ช็อปปิ้ง" },
+  { day: 6, time: "21:00-21:30", place: "The OneFive Osaka Namba Dotonbori", activity: "กลับโรงแรมพักผ่อน", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  // วันที่ 7
+  { day: 7, time: "08:00-09:00", place: "The OneFive Osaka Namba Dotonbori", activity: "ตื่นนอน อาหารเช้า เช็คเอาท์", transport: "ที่โรงแรม", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 7, time: "09:00-10:00", place: "Kuromon Market", activity: "เที่ยวตลาดคุโรมอน ชิมอาหาร", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 7, time: "10:00-11:00", place: "Shinsekai", activity: "เที่ยวย่านชินเซไก Tsutenkaku Tower", transport: "รถไฟ", costYen: 230, costBaht: 57, mapsUrl: "", note: "Tsutenkaku Tower" },
+  { day: 7, time: "11:00-12:00", place: "Namba", activity: "ซื้อของฝากย่านนัมบะ", transport: "รถไฟ", costYen: 230, costBaht: 57, mapsUrl: "", note: "" },
+  { day: 7, time: "12:00-13:00", place: "Namba", activity: "อาหารกลางวัน", transport: "เดิน", costYen: 2000, costBaht: 500, mapsUrl: "", note: "" },
+  { day: 7, time: "13:00-14:00", place: "Kansai Airport", activity: "เดินทางไปสนามบิน Nankai Express", transport: "รถไฟ Nankai", costYen: 970, costBaht: 242, mapsUrl: "", note: "Nankai Airport Express" },
+  { day: 7, time: "14:00-15:30", place: "Kansai Airport", activity: "เช็คอิน ผ่านตรวจ ช้อปปิ้ง Duty Free", transport: "เดิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+  { day: 7, time: "16:00", place: "Kansai Airport", activity: "✈️ บินกลับ", transport: "เครื่องบิน", costYen: 0, costBaht: 0, mapsUrl: "", note: "" },
+];
+
+// ค่าใช้จ่ายคงที่ (ไม่รวมโรงแรม — คำนวณจาก context)
+export const fixedExpenses = [
+  { item: "ค่าเดินทางสนามบิน-เกียวโต", detail: "JR Haruka (ตั๋วนักท่องเที่ยว)", totalYen: 2200, totalBaht: 550 },
+  { item: "ICOCA Card + เติมเงิน", detail: "บัตรเติมเงิน ¥1,500 ใช้ + มัดจำ ¥500", totalYen: 7000, totalBaht: 1750 },
+  { item: "ค่ารถบัส/รถไฟในเกียวโต", detail: "รถบัส, JR หลายเที่ยว", totalYen: 3000, totalBaht: 750 },
+  { item: "ค่าเดินทางเกียวโต-โอซาก้า", detail: "JR Kyoto Line", totalYen: 570, totalBaht: 142 },
+  { item: "ค่าเดินทางโอซาก้า-สนามบิน", detail: "Nankai Airport Express", totalYen: 970, totalBaht: 242 },
+  { item: "ค่าแท็กซี่ (เผื่อ)", detail: "กรณีเหนื่อยเกินไป 2-3 ครั้ง", totalYen: 3000, totalBaht: 750 },
+  { item: "ค่าเข้าสถานที่", detail: "วัด, ปราสาท หลายที่", totalYen: 3400, totalBaht: 850 },
+  { item: "อาหาร 6 วัน", detail: "เช้า กลางวัน เย็น", totalYen: 50000, totalBaht: 12500 },
+];
+
+export const dayTitles = {
+  1: { title: "วันที่ 1: ถึงเกียวโต & ตลาดนิชิกิ", subtitle: "KIX → เกียวโต → Nishiki Market → Pontocho → Gion", emoji: "✈️" },
+  2: { title: "วันที่ 2: วัดคิโยมิซึ & ย่านกิออน", subtitle: "Kiyomizu-dera → Sannenzaka → Ninenzaka → Gion", emoji: "⛩️" },
+  3: { title: "วันที่ 3: เส้นทางปราชญ์", subtitle: "Ginkaku-ji → Philosopher's Path → Nanzen-ji → Heian Shrine", emoji: "🛕" },
+  4: { title: "วันที่ 4: อาราชิยามา & ฟูชิมิ", subtitle: "Bamboo Grove → Tenryu-ji → Fushimi Inari", emoji: "🎋" },
+  5: { title: "วันที่ 5: ยามาชินะ & ศาลเจ้าลึกลับ", subtitle: "Bishamondo → Seimei Shrine → Tanukidani → Yoshida", emoji: "🌸" },
+  6: { title: "วันที่ 6: โอซาก้า!", subtitle: "ปราสาทโอซาก้า → Dotonbori → Shinsaibashi", emoji: "🏯" },
+  7: { title: "วันที่ 7: ตลาดคุโรมอน & บินกลับ", subtitle: "Kuromon Market → Shinsekai → KIX", emoji: "🛍️" },
+};
