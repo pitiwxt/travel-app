@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { TravelContext } from '../App';
 import { dayTitles } from '../data/travelData';
 
-export default function Sidebar({ page, onNav, isOpen, onClose }) {
+export default function Sidebar({ page, onNav, isOpen, onClose, theme, toggleTheme }) {
     const { plan, hotelExpense, navTo, exchangeRate, customExpenses } = useContext(TravelContext);
 
     // Compute per-day cost live from plan
