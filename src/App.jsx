@@ -27,7 +27,7 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [customExpenses, setCustomExpenses] = useState(fixedExpenses);
   const [exchangeRate, setExchangeRate] = useState(0.25); // default fallback
-  const [theme, setTheme] = useState(localStorage.getItem('travel_theme') || 'dark');
+  const [theme, setTheme] = useState(localStorage.getItem('travel_theme') || 'light');
   const [currentUser, setCurrentUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
 
