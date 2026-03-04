@@ -30,9 +30,9 @@ export default function Sidebar({ page, onNav, isOpen, onClose }) {
             <button className="sidebar-close-btn" onClick={onClose}>✕</button>
 
             <div className="sidebar-logo">
-                <img src="/logo.png" style={{ width: 44, height: 44, borderRadius: 12, marginBottom: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }} alt="Japan Logo" />
-                <h1>เกียวโต・โอซาก้า</h1>
-                <p>7 วัน มีนาคม 2026</p>
+                <img src="/logo.png" style={{ width: 36, height: 36, borderRadius: 10, marginBottom: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }} alt="Japan Logo" />
+                <h1 style={{ fontSize: 15 }}>เกียวโต・โอซาก้า</h1>
+                <p style={{ marginTop: 2 }}>7 วัน มีนาคม 2026</p>
             </div>
 
             <nav className="sidebar-nav">
@@ -54,7 +54,7 @@ export default function Sidebar({ page, onNav, isOpen, onClose }) {
                     </div>
                 ))}
 
-                <div className="sidebar-section-label" style={{ marginTop: 8 }}>รายวัน</div>
+                <div className="sidebar-section-label" style={{ marginTop: 4 }}>รายวัน</div>
                 {[1, 2, 3, 4, 5, 6, 7].map(d => {
                     const info = dayTitles[d];
                     const cost = getDayCostLive(d);
@@ -63,11 +63,11 @@ export default function Sidebar({ page, onNav, isOpen, onClose }) {
                             key={d}
                             className={`nav-item ${page === 'day' ? 'active' : ''}`}
                             onClick={() => handleNav('day', d)}
-                            style={{ fontSize: 12 }}
+                            style={{ fontSize: 12, padding: '7px 20px' }}
                         >
-                            <span className="nav-emoji">{info.emoji}</span>
+                            <span className="nav-emoji" style={{ fontSize: 14 }}>{info.emoji}</span>
                             <span>วันที่ {d}</span>
-                            <span className="nav-badge">฿{cost.baht.toLocaleString()}</span>
+                            <span className="nav-badge" style={{ fontSize: 9 }}>฿{cost.baht.toLocaleString()}</span>
                         </div>
                     );
                 })}
