@@ -3,18 +3,18 @@ import { TravelContext } from '../App';
 import { dayTitles } from '../data/travelData';
 
 export default function Sidebar({ page, onNav, isOpen, onClose }) {
-    const { plan, hotelExpense, navTo } = useContext(TravelContext);
+    const { plan, hotelExpense, navTo, exchangeRate, customExpenses } = useContext(TravelContext);
 
     // Compute per-day cost live from plan
     const getDayCostLive = (day) => {
         const items = plan.filter(i => i.day === day);
-        return { baht: items.reduce((s, i) => s + i.costBaht, 0) };
+        return { baht: items.reduce((s, i) => s + Math.round(i.costYen * exchangeRate), 0) };
     };
 
     // Fixed costs (activities, transport, food) — hotel from context
-    const fixedBaht = 17734;
-    const totalBaht = fixedBaht + hotelExpense.baht;
-    const totalYen = Math.round(totalBaht * 4);
+    const fixedYen = customExpenses.reduce((s, e) => s + e.totalYen, 0);
+    const totalYen = fixedYen + hotelExpense.yen;
+    const totalBaht = customExpenses.reduce((s, e) => s + Math.round(e.totalYen * exchangeRate), 0) + hotelExpense.baht;
 
     const handleNav = (p, day) => {
         if (day !== undefined) {
@@ -30,8 +30,9 @@ export default function Sidebar({ page, onNav, isOpen, onClose }) {
             <button className="sidebar-close-btn" onClick={onClose}>✕</button>
 
             <div className="sidebar-logo">
-                <h1>🗾 เกียวโต・โอซาก้า</h1>
-                <p>7 วัน mar 2026</p>
+                <img src="/logo.png" style={{ width: 44, height: 44, borderRadius: 12, marginBottom: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }} alt="Japan Logo" />
+                <h1>เกียวโต・โอซาก้า</h1>
+                <p>7 วัน มีนาคม 2026</p>
             </div>
 
             <nav className="sidebar-nav">

@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { placesDatabase, locationCoords } from '../data/travelData';
+import { TravelContext } from '../App';
 
 export default function EditModal({ item, onSave, onClose, title, isNew = false }) {
+    const { exchangeRate } = useContext(TravelContext);
     const [form, setForm] = useState({ ...item });
     const [placeSearch, setPlaceSearch] = useState('');
     const [showPlaceSearch, setShowPlaceSearch] = useState(false);
@@ -120,7 +122,7 @@ export default function EditModal({ item, onSave, onClose, title, isNew = false 
                                 onChange={e => {
                                     const yen = parseInt(e.target.value) || 0;
                                     set('costYen', yen);
-                                    set('costBaht', Math.round(yen / 4));
+                                    set('costBaht', Math.round(yen * exchangeRate));
                                 }}
                             />
                         </div>
@@ -133,7 +135,7 @@ export default function EditModal({ item, onSave, onClose, title, isNew = false 
                                 onChange={e => {
                                     const baht = parseInt(e.target.value) || 0;
                                     set('costBaht', baht);
-                                    set('costYen', baht * 4);
+                                    set('costYen', Math.round(baht / exchangeRate));
                                 }}
                             />
                         </div>

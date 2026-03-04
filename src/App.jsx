@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import { actionPlan, hotelsDatabase, dayTitles, fixedExpenses } from './data/travelData';
 import Sidebar from './components/Sidebar';
 import OverviewPage from './pages/OverviewPage';
@@ -21,6 +21,18 @@ export default function App() {
   const [allHotels, setAllHotels] = useState(hotelsDatabase);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [customExpenses, setCustomExpenses] = useState(fixedExpenses);
+  const [exchangeRate, setExchangeRate] = useState(0.25); // default fallback
+
+  useEffect(() => {
+    fetch('https://open.er-api.com/v6/latest/JPY')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.rates && data.rates.THB) {
+          setExchangeRate(data.rates.THB);
+        }
+      })
+      .catch(err => console.error("Failed to fetch exchange rate", err));
+  }, []);
 
   // Global hotel selection — drives plan names, expenses, and map pins
   const [hotelSelection, setHotelSelection] = useState({
@@ -68,7 +80,7 @@ export default function App() {
   };
 
   const updateCustomExpense = (index, newTotalYen) => {
-    setCustomExpenses(prev => prev.map((e, i) => i === index ? { ...e, totalYen: newTotalYen, totalBaht: newTotalYen / 4 } : e));
+    setCustomExpenses(prev => prev.map((e, i) => i === index ? { ...e, totalYen: newTotalYen, totalBaht: Math.round(newTotalYen * exchangeRate) } : e));
   };
 
   const navTo = (p, day) => {
@@ -80,8 +92,8 @@ export default function App() {
   const hotelExpense = {
     yen: hotelSelection.kyoto.hotel.priceYen * hotelSelection.kyoto.nights +
       hotelSelection.osaka.hotel.priceYen * hotelSelection.osaka.nights,
-    baht: hotelSelection.kyoto.hotel.priceBaht * hotelSelection.kyoto.nights +
-      hotelSelection.osaka.hotel.priceBaht * hotelSelection.osaka.nights,
+    baht: Math.round((hotelSelection.kyoto.hotel.priceYen * hotelSelection.kyoto.nights +
+      hotelSelection.osaka.hotel.priceYen * hotelSelection.osaka.nights) * exchangeRate),
   };
 
   const closeSidebar = () => setIsSidebarOpen(false);
@@ -95,11 +107,15 @@ export default function App() {
       hotelExpense,
       customExpenses, updateCustomExpense,
       navTo,
+      exchangeRate,
     }}>
       {/* Mobile header with hamburger */}
       <div className="mobile-header">
         <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>☰</button>
-        <span className="mobile-header-title">🗾 เกียวโต・โอซาก้า</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <img src="/logo.png" style={{ width: 26, height: 26, borderRadius: 6 }} alt="logo" />
+          <span className="mobile-header-title">เกียวโต・โอซาก้า</span>
+        </div>
       </div>
 
       {/* Sidebar overlay (mobile) */}

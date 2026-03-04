@@ -4,36 +4,36 @@ import { TravelContext } from '../App';
 const COLORS = ['#e8334a', '#f59e0b', '#10b981', '#6366f1', '#ec4899', '#3b82f6', '#8b5cf6', '#14b8a6', '#f97316', '#06b6d4'];
 
 export default function ExpensesPage() {
-    const { plan, hotelSelection, hotelExpense, navTo, customExpenses, updateCustomExpense } = useContext(TravelContext);
+    const { plan, hotelSelection, hotelExpense, navTo, customExpenses, updateCustomExpense, exchangeRate } = useContext(TravelContext);
     const [editingIdx, setEditingIdx] = useState(null);
     const [editVal, setEditVal] = useState('');
 
     // Live activity costs from plan
     const activityCostYen = plan.reduce((s, i) => s + i.costYen, 0);
-    const activityCostBaht = plan.reduce((s, i) => s + i.costBaht, 0);
+    const activityCostBaht = plan.reduce((s, i) => s + Math.round(i.costYen * exchangeRate), 0);
 
     // Fixed expenses (transport, food, entrance)
     const fixedYen = customExpenses.reduce((s, e) => s + e.totalYen, 0);
-    const fixedBaht = customExpenses.reduce((s, e) => s + e.totalBaht, 0);
+    const fixedBaht = customExpenses.reduce((s, e) => s + Math.round(e.totalYen * exchangeRate), 0);
 
     const grandTotalYen = fixedYen + hotelExpense.yen;
     const grandTotalBaht = fixedBaht + hotelExpense.baht;
 
     // All rows for chart
     const allRows = [
-        ...customExpenses.map((e, idx) => ({ ...e, originalIdx: idx })),
+        ...customExpenses.map((e, idx) => ({ ...e, originalIdx: idx, totalBaht: Math.round(e.totalYen * exchangeRate) })),
         {
             item: `ที่พักเกียวโต ${hotelSelection.kyoto.nights} คืน`,
             detail: hotelSelection.kyoto.hotel.name,
             totalYen: hotelSelection.kyoto.hotel.priceYen * hotelSelection.kyoto.nights,
-            totalBaht: hotelSelection.kyoto.hotel.priceBaht * hotelSelection.kyoto.nights,
+            totalBaht: Math.round(hotelSelection.kyoto.hotel.priceYen * hotelSelection.kyoto.nights * exchangeRate),
             isHotel: true,
         },
         {
             item: `ที่พักโอซาก้า ${hotelSelection.osaka.nights} คืน`,
             detail: hotelSelection.osaka.hotel.name,
             totalYen: hotelSelection.osaka.hotel.priceYen * hotelSelection.osaka.nights,
-            totalBaht: hotelSelection.osaka.hotel.priceBaht * hotelSelection.osaka.nights,
+            totalBaht: Math.round(hotelSelection.osaka.hotel.priceYen * hotelSelection.osaka.nights * exchangeRate),
             isHotel: true,
         },
     ];

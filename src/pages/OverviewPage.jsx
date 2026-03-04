@@ -3,20 +3,21 @@ import { TravelContext } from '../App';
 import { dayTitles } from '../data/travelData';
 
 export default function OverviewPage() {
-    const { plan, hotelExpense, navTo } = useContext(TravelContext);
+    const { plan, hotelExpense, navTo, exchangeRate, customExpenses } = useContext(TravelContext);
 
     // Compute stats live from plan
-    const totalPlanYen = plan.reduce((s, i) => s + i.costYen, 0);
-    const totalPlanBaht = plan.reduce((s, i) => s + i.costBaht, 0);
-    const fixedBaht = 17734;
-    const totalBaht = fixedBaht + hotelExpense.baht;
-    const totalYen = fixedBaht * 4 + hotelExpense.yen;
+    const fixedYen = customExpenses.reduce((s, e) => s + e.totalYen, 0);
+    const totalBaht = customExpenses.reduce((s, e) => s + Math.round(e.totalYen * exchangeRate), 0) + hotelExpense.baht;
+    const totalYen = fixedYen + hotelExpense.yen;
     const totalStops = plan.length;
 
     const getDayItems = (day) => plan.filter(i => i.day === day);
     const getDayCostLive = (day) => {
         const items = getDayItems(day);
-        return { yen: items.reduce((s, i) => s + i.costYen, 0), baht: items.reduce((s, i) => s + i.costBaht, 0) };
+        return {
+            yen: items.reduce((s, i) => s + i.costYen, 0),
+            baht: items.reduce((s, i) => s + Math.round(i.costYen * exchangeRate), 0)
+        };
     };
 
     return (
@@ -52,13 +53,13 @@ export default function OverviewPage() {
                             <h3 style={{ margin: 0, fontSize: 16, color: 'var(--text-primary)' }}>อัตราแลกเปลี่ยนปัจจุบัน</h3>
                         </div>
                         <div style={{ fontSize: 32, fontWeight: 700, color: 'var(--accent-gold)', marginBottom: 4, fontFamily: 'monospace' }}>
-                            100¥ = 25.00฿
+                            100¥ = {(100 * exchangeRate).toFixed(2)}฿
                         </div>
                         <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-                            <span style={{ color: 'var(--accent-teal)', fontWeight: 600 }}>▲ +0.12%</span> อัปเดตล่าสุด: วันนี้ 09:45
+                            <span style={{ color: 'var(--accent-teal)', fontWeight: 600 }}>📡 อัปเดตสด (Real-time)</span> จากอัตราแลกเปลี่ยน API
                         </div>
                         <div style={{ marginTop: 12, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                            ระบบจะคำนวณเงินบาทในตารางตามอัตราแลกเปลี่ยน 1 เยน = 0.25 บาท โดยอัตโนมัติ
+                            ระบบจะคำนวณเงินบาทในตารางตามอัตราแลกเปลี่ยน 1 เยน = {exchangeRate.toFixed(4)} บาท โดยอัตโนมัติ
                         </div>
                     </div>
                     {/* SVG mini chart */}
