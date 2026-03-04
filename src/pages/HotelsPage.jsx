@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useRef } from 'react';
-import { TravelContext } from '../App';
+import { TravelContext } from '../MainApp';
 import { locationCoords } from '../data/travelData';
 
 function HotelMap({ kyotoHotel, osakaHotel }) {

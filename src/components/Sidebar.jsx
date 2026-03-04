@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TravelContext } from '../App';
+import { TravelContext } from '../MainApp';
 import { dayTitles } from '../data/travelData';
 
 export default function Sidebar({ page, onNav, isOpen, onClose }) {

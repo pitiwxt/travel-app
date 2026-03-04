@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { TravelContext } from '../App';
+import { TravelContext } from '../MainApp';
 import { dayTitles, locationCoords } from '../data/travelData';
 import EditModal from '../components/EditModal';
 

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useRef, useMemo } from 'react';
-import { TravelContext } from '../App';
+import { TravelContext } from '../MainApp';
 import { dayTitles, locationCoords } from '../data/travelData';
 
 const DAY_COLORS = {

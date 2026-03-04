@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { placesDatabase, locationCoords } from '../data/travelData';
-import { TravelContext } from '../App';
+import { TravelContext } from '../MainApp';
 
 export default function EditModal({ item, onSave, onClose, title, isNew = false }) {
     const { exchangeRate } = useContext(TravelContext);
