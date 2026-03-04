@@ -1,70 +1,21 @@
 import React, { useState } from 'react';
-import { auth, googleProvider } from '../firebaseSetup';
-import { signInWithPopup } from 'firebase/auth';
+import { auth } from '../firebaseSetup';
+import { signOut } from 'firebase/auth';
 
 export function MultiplayerOverlay({
-    userName, setAndSaveName, showNamePrompt,
-    roomId, isHost, mode, connectionStatus,
-    onlineUsers, history, getShareLink
+    userName, roomId, isHost, mode, connectionStatus,
+    onlineUsers, history, getShareLink, theme, toggleTheme, currentUser
 }) {
-    const [nameInput, setNameInput] = useState('');
     const [showShareModal, setShowShareModal] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-    // Real Firebase Google Login
-    const handleGoogleLogin = async () => {
+    const handleLogout = async () => {
         try {
-            const result = await signInWithPopup(auth, googleProvider);
-            if (result && result.user && result.user.email) {
-                setAndSaveName(result.user.email);
-            }
+            await signOut(auth);
         } catch (error) {
-            console.error("Google Login Error:", error);
-            alert("ไม่สามารถล็อกอินได้ โปรดตรวจสอบการตั้งค่า Firebase API Keys ของคุณ");
+            console.error(error);
         }
     };
-
-    if (showNamePrompt) {
-        return (
-            <div className="modal-overlay" style={{ zIndex: 9999, background: 'rgba(10, 14, 26, 0.95)' }}>
-                <div className="modal" style={{ maxWidth: 400, padding: 30, textAlign: 'center' }}>
-                    <div style={{ fontSize: 40, marginBottom: 16 }}>👋</div>
-                    <h2 style={{ color: 'var(--text-primary)', marginBottom: 12 }}>ยินดีต้อนรับสู่ทริป</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 24 }}>
-                        โปรดระบุตัวตนของคุณเพื่อเข้าถึงแผนการเดินทาง
-                    </p>
-
-                    <button
-                        className="btn btn-secondary"
-                        style={{ width: '100%', padding: 14, justifyContent: 'center', marginBottom: 16, background: 'white', color: '#444' }}
-                        onClick={handleGoogleLogin}
-                    >
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style={{ width: 18 }} alt="g" />
-                        ล็อกอินด้วย Google (Admin)
-                    </button>
-
-                    <div style={{ color: 'var(--text-muted)', fontSize: 11, margin: '16px 0' }}>— หรือใช้ชื่อทั่วไป (สาธารณะ) —</div>
-
-                    <input
-                        type="text"
-                        value={nameInput}
-                        onChange={e => setNameInput(e.target.value)}
-                        placeholder="ชื่อของคุณ..."
-                        style={{ width: '100%', padding: '12px 16px', borderRadius: 8, background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'white', marginBottom: 16, fontSize: 16 }}
-                        autoFocus
-                    />
-                    <button
-                        className="btn btn-primary"
-                        style={{ width: '100%', padding: 14, justifyContent: 'center' }}
-                        onClick={() => {
-                            if (nameInput.trim()) setAndSaveName(nameInput.trim());
-                        }}
-                    >
-                        เข้าสู่แผนในฐานะผู้เยี่ยมชม
-                    </button>
-                </div>
-            </div>
-        );
-    }
 
     const isAdmin = userName === 'pitiwxt@gmail.com';
 
@@ -86,30 +37,75 @@ export function MultiplayerOverlay({
                     </span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: -8, marginLeft: 'auto' }}>
-                    {onlineUsers.map(u => {
-                        const isNodeAdmin = u.name === 'pitiwxt@gmail.com';
-                        return (
-                            <div key={u.id} title={`${u.name} ${isNodeAdmin ? '(Admin)' : `(${u.mode})`}`} style={{
-                                width: 26, height: 26, borderRadius: '50%', background: isNodeAdmin ? 'var(--accent-gold)' : 'var(--accent-red)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                color: 'white', fontSize: 10, fontWeight: 700, border: '2px solid var(--bg-secondary)',
-                                marginLeft: -8, position: 'relative'
-                            }}>
-                                {u.name.substring(0, 2).toUpperCase()}
-                                {isNodeAdmin && <span style={{ position: 'absolute', top: -6, right: -4, fontSize: 10 }}>👑</span>}
-                            </div>
-                        )
-                    })}
-                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: 'auto' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: -8, marginRight: 8 }}>
+                        {onlineUsers.map(u => {
+                            const isNodeAdmin = u.name === 'pitiwxt@gmail.com';
+                            return (
+                                <div key={u.id} title={`${u.name} ${isNodeAdmin ? '(Admin)' : `(${u.mode})`}`} style={{
+                                    width: 26, height: 26, borderRadius: '50%', background: isNodeAdmin ? 'var(--accent-gold)' : 'var(--accent-red)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    color: 'white', fontSize: 10, fontWeight: 700, border: '2px solid var(--bg-secondary)',
+                                    marginLeft: -8, position: 'relative'
+                                }}>
+                                    {u.name.substring(0, 2).toUpperCase()}
+                                    {isNodeAdmin && <span style={{ position: 'absolute', top: -6, right: -4, fontSize: 10 }}>👑</span>}
+                                </div>
+                            )
+                        })}
+                    </div>
 
-                <button
-                    className="btn btn-secondary btn-sm"
-                    style={{ fontSize: 11, padding: '4px 10px' }}
-                    onClick={() => setShowShareModal(true)}
-                >
-                    🔗 ประวัติ & แชร์
-                </button>
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        style={{ fontSize: 11, padding: '4px 10px' }}
+                        onClick={() => setShowShareModal(true)}
+                    >
+                        🔗 แชร์ & ประวัติ
+                    </button>
+
+                    <div style={{ position: 'relative' }}>
+                        <div
+                            style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--bg-card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden' }}
+                            onClick={() => setShowProfileMenu(!showProfileMenu)}
+                        >
+                            {currentUser?.photoURL ? (
+                                <img src={currentUser.photoURL} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ) : (
+                                <span style={{ fontSize: 12, fontWeight: 'bold' }}>{userName.substring(0, 2).toUpperCase()}</span>
+                            )}
+                        </div>
+
+                        {showProfileMenu && (
+                            <div style={{ position: 'absolute', top: 36, right: 0, width: 220, background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 8, boxShadow: '0 10px 25px rgba(0,0,0,0.5)', zIndex: 9999, overflow: 'hidden' }}>
+                                <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column' }}>
+                                    <span style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 2 }}>ลงชื่อเข้าใช้ในชื่อ:</span>
+                                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                        {userName}
+                                    </span>
+                                </div>
+                                <div style={{ padding: 8 }}>
+                                    <button
+                                        className="btn btn-ghost"
+                                        style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 12px', fontSize: 13 }}
+                                        onClick={() => {
+                                            toggleTheme();
+                                            setShowProfileMenu(false);
+                                        }}
+                                    >
+                                        {theme === 'dark' ? '☀️ โหมดสว่าง (Light)' : '🌙 โหมดมืด (Dark)'}
+                                    </button>
+                                    <button
+                                        className="btn btn-ghost"
+                                        style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 12px', fontSize: 13, color: 'var(--accent-red)' }}
+                                        onClick={handleLogout}
+                                    >
+                                        🚪 ออกจากระบบ
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
 
             {showShareModal && (

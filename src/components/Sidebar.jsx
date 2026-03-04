@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { TravelContext } from '../App';
 import { dayTitles } from '../data/travelData';
 
-export default function Sidebar({ page, onNav, isOpen, onClose, theme, toggleTheme }) {
+export default function Sidebar({ page, onNav, isOpen, onClose }) {
     const { plan, hotelExpense, navTo, exchangeRate, customExpenses } = useContext(TravelContext);
 
     // Compute per-day cost live from plan
@@ -28,14 +28,6 @@ export default function Sidebar({ page, onNav, isOpen, onClose, theme, toggleThe
     return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
             <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 6, zIndex: 10 }}>
-                <button
-                    className="btn btn-ghost btn-sm"
-                    style={{ fontSize: 16, padding: '4px 8px', border: 'none' }}
-                    onClick={toggleTheme}
-                    title={theme === 'dark' ? 'เปลี่ยนเป็นสว่าง' : 'เปลี่ยนเป็นมืด'}
-                >
-                    {theme === 'dark' ? '☀️' : '🌙'}
-                </button>
                 <button className="sidebar-close-btn" onClick={onClose} style={{ position: 'relative', top: 0, right: 0 }}>✕</button>
             </div>
 

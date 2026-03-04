@@ -9,6 +9,9 @@ import HotelsPage from './pages/HotelsPage';
 import PlacesPage from './pages/PlacesPage';
 import { useMultiplayer } from './hooks/useMultiplayer';
 import { MultiplayerOverlay } from './components/MultiplayerOverlay';
+import LoginScreen from './components/LoginScreen';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebaseSetup';
 
 export const TravelContext = createContext(null);
 
@@ -25,6 +28,21 @@ export default function App() {
   const [customExpenses, setCustomExpenses] = useState(fixedExpenses);
   const [exchangeRate, setExchangeRate] = useState(0.25); // default fallback
   const [theme, setTheme] = useState(localStorage.getItem('travel_theme') || 'dark');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  // Authenticate user
+  useEffect(() => {
+    if (!auth) {
+      setAuthLoading(false);
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setAuthLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Apply theme to document
   useEffect(() => {
@@ -34,7 +52,7 @@ export default function App() {
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
-  const mpProps = useMultiplayer((remoteState) => {
+  const mpProps = useMultiplayer(currentUser, (remoteState) => {
     setPlan(remoteState.plan);
     setHotelSelection(remoteState.hotelSelection);
     setCustomExpenses(remoteState.customExpenses);
@@ -160,6 +178,9 @@ export default function App() {
 
   const closeSidebar = () => setIsSidebarOpen(false);
 
+  if (authLoading) return <div style={{ height: '100vh', background: 'var(--bg-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>กำลังตรวจสอบสิทธิ์...</div>;
+  if (!currentUser) return <LoginScreen />;
+
   return (
     <TravelContext.Provider value={{
       plan, updateItem, addItem, deleteItem,
@@ -172,10 +193,10 @@ export default function App() {
       exchangeRate,
     }}>
       {/* Multiplayer System */}
-      <MultiplayerOverlay {...mpProps} />
+      <MultiplayerOverlay {...mpProps} theme={theme} toggleTheme={toggleTheme} currentUser={currentUser} />
 
       {/* Main UI shifting up by 40px for the Top Banner */}
-      <div style={{ paddingTop: (!mpProps.showNamePrompt ? 40 : 0), height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ paddingTop: 40, height: '100%', display: 'flex', flexDirection: 'column' }}>
         {/* Mobile header with hamburger */}
         <div className="mobile-header">
           <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>☰</button>
@@ -183,14 +204,6 @@ export default function App() {
             <img src="/logo.png" style={{ width: 26, height: 26, borderRadius: 6 }} alt="logo" />
             <span className="mobile-header-title">เกียวโต・โอซาก้า</span>
           </div>
-          <button
-            className="btn btn-ghost btn-sm"
-            style={{ marginLeft: 'auto', fontSize: 16, padding: '4px 8px' }}
-            onClick={toggleTheme}
-            title={theme === 'dark' ? 'เปลี่ยนเป็นสว่าง' : 'เปลี่ยนเป็นมืด'}
-          >
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
         </div>
 
         {/* Sidebar overlay (mobile) */}

@@ -2,10 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// Use public demo keys or instruct user to replace. 
-// Firebase Auth requires actual domains to be whitelisted (like surge.sh).
-// We will mock the provider if config is missing, but wire the real SDK so it works if they paste config.
-
+// คุณต้องเอา API Key จริงมาใส่ตรงนี้
 const firebaseConfig = {
     apiKey: "AIzaSy_REPLACE_WITH_REAL_KEY",
     authDomain: "travel-app-demo.firebaseapp.com",
@@ -16,13 +13,12 @@ const firebaseConfig = {
 };
 
 let app, auth, googleProvider;
-
 try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     googleProvider = new GoogleAuthProvider();
 } catch (error) {
-    console.warn("Firebase Init bypassed due to placeholder keys.");
+    console.error("Firebase config is invalid.");
 }
 
 export { auth, googleProvider };

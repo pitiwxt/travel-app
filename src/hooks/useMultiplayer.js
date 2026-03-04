@@ -2,9 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Peer } from 'peerjs';
 import { v4 as uuidv4 } from 'uuid';
 
-export function useMultiplayer(onRemoteStateReceived) {
-    const [userName, setUserName] = useState(localStorage.getItem('travel_username') || '');
-    const [showNamePrompt, setShowNamePrompt] = useState(!localStorage.getItem('travel_username'));
+export function useMultiplayer(currentUser, onRemoteStateReceived) {
+    const userName = currentUser ? currentUser.email : '';
     const [roomId, setRoomId] = useState(null);
     const [isHost, setIsHost] = useState(false);
     const [mode, setMode] = useState('edit'); // 'edit' or 'view'
@@ -24,11 +23,7 @@ export function useMultiplayer(onRemoteStateReceived) {
     useEffect(() => { historyRef.current = history; }, [history]);
     useEffect(() => { usersRef.current = onlineUsers; }, [onlineUsers]);
 
-    const setAndSaveName = (name) => {
-        localStorage.setItem('travel_username', name);
-        setUserName(name);
-        setShowNamePrompt(false);
-    };
+    // Removed setAndSaveName logic since we use Firebase
 
     const getShareLink = (shareMode) => {
         const url = new URL(window.location.href);
@@ -71,7 +66,7 @@ export function useMultiplayer(onRemoteStateReceived) {
     }, [connectionStatus, isHost, mode, userName, broadcastAll]);
 
     useEffect(() => {
-        if (showNamePrompt || !userName) return;
+        if (!userName) return;
 
         const urlParams = new URLSearchParams(window.location.search);
         const roomFromUrl = urlParams.get('room');
@@ -167,12 +162,10 @@ export function useMultiplayer(onRemoteStateReceived) {
         peer.on('error', () => setConnectionStatus('disconnected'));
 
         return () => peer.destroy();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [showNamePrompt, userName]);
+    }, [userName]);
 
     return {
-        userName, setAndSaveName, showNamePrompt,
-        roomId, isHost, mode, connectionStatus,
+        userName, roomId, isHost, mode, connectionStatus,
         onlineUsers, history,
         broadcastState, getShareLink,
         latestState: stateRef.current
