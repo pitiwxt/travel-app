@@ -7,6 +7,8 @@ import MapPage from './pages/MapPage';
 import ExpensesPage from './pages/ExpensesPage';
 import HotelsPage from './pages/HotelsPage';
 import PlacesPage from './pages/PlacesPage';
+import { useMultiplayer } from './hooks/useMultiplayer';
+import { MultiplayerOverlay } from './components/MultiplayerOverlay';
 
 export const TravelContext = createContext(null);
 
@@ -22,6 +24,23 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [customExpenses, setCustomExpenses] = useState(fixedExpenses);
   const [exchangeRate, setExchangeRate] = useState(0.25); // default fallback
+
+  const mpProps = useMultiplayer((remoteState) => {
+    setPlan(remoteState.plan);
+    setHotelSelection(remoteState.hotelSelection);
+    setCustomExpenses(remoteState.customExpenses);
+    setAllHotels(remoteState.allHotels);
+  });
+
+  const notifyChange = (newPlan, newHotels, newCustomEx, newAllHotels, actionName) => {
+    if (mpProps.mode === 'view' && !mpProps.isHost) return; // Readers don't broadcast
+    mpProps.broadcastState({
+      plan: newPlan,
+      hotelSelection: newHotels,
+      customExpenses: newCustomEx,
+      allHotels: newAllHotels
+    }, actionName);
+  }
 
   useEffect(() => {
     fetch('https://open.er-api.com/v6/latest/JPY')
@@ -42,45 +61,79 @@ export default function App() {
 
   // When hotel changes, update plan items that reference old hotel names
   const selectHotel = (city, newHotel, nights) => {
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
     setHotelSelection(prev => {
       const prev_ = prev[city];
       const oldName = prev_.hotel.name;
-      // Update plan references
-      setPlan(p => p.map(item =>
-        item.place === oldName ? { ...item, place: newHotel.name } : item
-      ));
-      return { ...prev, [city]: { ...prev_[city], hotel: newHotel, nights: nights ?? prev_.nights } };
+      const newSelection = { ...prev, [city]: { ...prev_[city], hotel: newHotel, nights: nights ?? prev_.nights } };
+
+      let clonedPlan = null;
+      setPlan(p => {
+        clonedPlan = p.map(item => item.place === oldName ? { ...item, place: newHotel.name } : item);
+        notifyChange(clonedPlan, newSelection, customExpenses, allHotels, `เปลี่ยนโรงแรม ${city}`);
+        return clonedPlan;
+      });
+
+      return newSelection;
     });
   };
 
   const updateHotelNights = (city, nights) => {
-    setHotelSelection(prev => ({ ...prev, [city]: { ...prev[city], nights } }));
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
+    setHotelSelection(prev => {
+      const next = { ...prev, [city]: { ...prev[city], nights } };
+      notifyChange(plan, next, customExpenses, allHotels, `เพิ่มคืนพัก ${city}`);
+      return next;
+    });
   };
 
   const addCustomHotel = (newHotel) => {
-    setAllHotels(prev => [...prev, { ...newHotel, id: `custom_${Date.now()}` }]);
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
+    setAllHotels(prev => {
+      const next = [...prev, { ...newHotel, id: `custom_${Date.now()}` }];
+      notifyChange(plan, hotelSelection, customExpenses, next, `เพิ่มที่พักใหม่`);
+      return next;
+    });
   };
 
   // Plan CRUD
   const updateItem = (index, updatedItem) => {
-    setPlan(prev => prev.map((item, i) => i === index ? { ...item, ...updatedItem } : item));
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
+    setPlan(prev => {
+      const next = prev.map((item, i) => i === index ? { ...item, ...updatedItem } : item);
+      notifyChange(next, hotelSelection, customExpenses, allHotels, `แก้ไข: ${updatedItem.place}`);
+      return next;
+    });
   };
 
   const addItem = (newItem) => {
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
     setPlan(prev => {
       const lastIdx = prev.map((it, i) => it.day === newItem.day ? i : -1).filter(i => i >= 0).pop() ?? prev.length - 1;
       const arr = [...prev];
       arr.splice(lastIdx + 1, 0, newItem);
+      notifyChange(arr, hotelSelection, customExpenses, allHotels, `เพิ่ม: ${newItem.place}`);
       return arr;
     });
   };
 
   const deleteItem = (index) => {
-    setPlan(prev => prev.filter((_, i) => i !== index));
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
+    setPlan(prev => {
+      const placeName = prev[index]?.place || 'สถานที่';
+      const next = prev.filter((_, i) => i !== index);
+      notifyChange(next, hotelSelection, customExpenses, allHotels, `ลบ: ${placeName}`);
+      return next;
+    });
   };
 
   const updateCustomExpense = (index, newTotalYen) => {
-    setCustomExpenses(prev => prev.map((e, i) => i === index ? { ...e, totalYen: newTotalYen, totalBaht: Math.round(newTotalYen * exchangeRate) } : e));
+    if (mpProps.mode === 'view' && !mpProps.isHost) return;
+    setCustomExpenses(prev => {
+      const next = prev.map((e, i) => i === index ? { ...e, totalYen: newTotalYen, totalBaht: Math.round(newTotalYen * exchangeRate) } : e);
+      notifyChange(plan, hotelSelection, next, allHotels, `อัปเดตค่าใช้จ่าย`);
+      return next;
+    });
   };
 
   const navTo = (p, day) => {
@@ -109,35 +162,41 @@ export default function App() {
       navTo,
       exchangeRate,
     }}>
-      {/* Mobile header with hamburger */}
-      <div className="mobile-header">
-        <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>☰</button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src="/logo.png" style={{ width: 26, height: 26, borderRadius: 6 }} alt="logo" />
-          <span className="mobile-header-title">เกียวโต・โอซาก้า</span>
+      {/* Multiplayer System */}
+      <MultiplayerOverlay {...mpProps} />
+
+      {/* Main UI shifting up by 40px for the Top Banner */}
+      <div style={{ paddingTop: (!mpProps.showNamePrompt ? 40 : 0), height: '100%', display: 'flex', flexDirection: 'column' }}>
+        {/* Mobile header with hamburger */}
+        <div className="mobile-header">
+          <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>☰</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <img src="/logo.png" style={{ width: 26, height: 26, borderRadius: 6 }} alt="logo" />
+            <span className="mobile-header-title">เกียวโต・โอซาก้า</span>
+          </div>
         </div>
-      </div>
 
-      {/* Sidebar overlay (mobile) */}
-      <div
-        className={`sidebar-overlay ${isSidebarOpen ? 'visible' : ''}`}
-        onClick={closeSidebar}
-      />
-
-      <div className="app-wrapper">
-        <Sidebar
-          page={page}
-          onNav={(p) => setPage(p)}
-          isOpen={isSidebarOpen}
-          onClose={closeSidebar}
+        {/* Sidebar overlay (mobile) */}
+        <div
+          className={`sidebar-overlay ${isSidebarOpen ? 'visible' : ''}`}
+          onClick={closeSidebar}
         />
-        <div className="main-content">
-          {page === 'overview' && <OverviewPage />}
-          {page === 'day' && <DayDetailPage />}
-          {page === 'map' && <MapPage />}
-          {page === 'expenses' && <ExpensesPage />}
-          {page === 'hotels' && <HotelsPage />}
-          {page === 'places' && <PlacesPage />}
+
+        <div className="app-wrapper">
+          <Sidebar
+            page={page}
+            onNav={(p) => setPage(p)}
+            isOpen={isSidebarOpen}
+            onClose={closeSidebar}
+          />
+          <div className="main-content">
+            {page === 'overview' && <OverviewPage />}
+            {page === 'day' && <DayDetailPage />}
+            {page === 'map' && <MapPage />}
+            {page === 'expenses' && <ExpensesPage />}
+            {page === 'hotels' && <HotelsPage />}
+            {page === 'places' && <PlacesPage />}
+          </div>
         </div>
       </div>
     </TravelContext.Provider>

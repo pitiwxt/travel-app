@@ -12,11 +12,15 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "gun": "^0.2020.1241",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.576.0",
+    "mqtt": "^5.15.0",
+    "peerjs": "^1.5.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
