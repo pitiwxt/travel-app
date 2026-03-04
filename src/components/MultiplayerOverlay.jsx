@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { auth, googleProvider } from '../firebaseSetup';
-// import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../firebaseSetup';
+import { signInWithPopup } from 'firebase/auth';
 
 export function MultiplayerOverlay({
     userName, setAndSaveName, showNamePrompt,
@@ -10,10 +10,17 @@ export function MultiplayerOverlay({
     const [nameInput, setNameInput] = useState('');
     const [showShareModal, setShowShareModal] = useState(false);
 
-    // Simulated Google Login for Admin demo
-    const handleGoogleLogin = () => {
-        // In a real app we do: signInWithPopup(auth, googleProvider).then(user => setAndSaveName(user.email))
-        setAndSaveName('pitiwxt@gmail.com');
+    // Real Firebase Google Login
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            if (result && result.user && result.user.email) {
+                setAndSaveName(result.user.email);
+            }
+        } catch (error) {
+            console.error("Google Login Error:", error);
+            alert("ไม่สามารถล็อกอินได้ โปรดตรวจสอบการตั้งค่า Firebase API Keys ของคุณ");
+        }
     };
 
     if (showNamePrompt) {

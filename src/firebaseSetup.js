@@ -15,6 +15,14 @@ const firebaseConfig = {
     appId: "1:123456789:web:abcdef"
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
+let app, auth, googleProvider;
+
+try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
+} catch (error) {
+    console.warn("Firebase Init bypassed due to placeholder keys.");
+}
+
+export { auth, googleProvider };
