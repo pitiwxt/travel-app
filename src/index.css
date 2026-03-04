@@ -1482,6 +1482,10 @@ body {
     font-size: 12px;
   }
 
+  .map-day-selector .day-sel-sub {
+    display: none;
+  }
+
   .map-area {
     height: calc(100vh - 52px - 200px);
   }
@@ -1626,10 +1630,6 @@ body {
 @media (max-width: 480px) {
   .stats-row {
     grid-template-columns: 1fr;
-  }
-
-  .map-sidebar {
-    max-height: 160px;
   }
 
   .overview-hero::after {

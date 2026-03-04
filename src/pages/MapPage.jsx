@@ -225,7 +225,7 @@ export default function MapPage() {
                                     <span style={{ fontSize: 16 }}>🌍</span>
                                     <div style={{ flex: 1, minWidth: 0 }}>
                                         <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)' }}>รวมทุกวัน</div>
-                                        <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>สถานที่ทั้งหมดในทริปนี้</div>
+                                        <div className="day-sel-sub" style={{ fontSize: 10, color: 'var(--text-muted)' }}>สถานที่ทั้งหมดในทริปนี้</div>
                                     </div>
                                 </div>
                                 {[1, 2, 3, 4, 5, 6, 7].map(d => (
@@ -237,7 +237,7 @@ export default function MapPage() {
                                         <span style={{ fontSize: 16 }}>{dayTitles[d].emoji}</span>
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)' }}>วันที่ {d}</div>
-                                            <div style={{ fontSize: 10, color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            <div className="day-sel-sub" style={{ fontSize: 10, color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                 {dayTitles[d].subtitle}
                                             </div>
                                         </div>
