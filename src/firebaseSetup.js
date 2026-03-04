@@ -4,7 +4,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // คุณต้องเอา API Key จริงมาใส่ตรงนี้
 const firebaseConfig = {
-    apiKey: "AIzaSyCczzGujb1vW17tTrL0JajlXrGQOPqDIxU",
+    apiKey: "AIzaSyCCzzGujb1vW17tTrL0JajlXrGQOPqDIxU",
     authDomain: "travel-app-pitiwxt.firebaseapp.com",
     projectId: "travel-app-pitiwxt",
     storageBucket: "travel-app-pitiwxt.firebasestorage.app",
